@@ -1,0 +1,16 @@
+{
+  "name": "mommabearadmin",
+  "version": "1.0.0",
+  "description": "The backed for Momma Bear Product website.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chad H. Glaser (@CodingWithChad)",
+  "license": "ISC",
+  "dependencies": {
+    "airtable": "^0.5.6",
+    "dotenv": "^6.0.0",
+    "node-lambda": "^0.12.0"
+  }
+}
