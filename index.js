@@ -1,15 +1,55 @@
 require('dotenv').config();
-const Airtable = require('airtable');
+var Airtable = require('airtable');
+var base = new Airtable({apiKey: process.env.AIRTABLE_APIKEY}).base(process.env.AIRTABLE_BASE);
 
-//mommabear_airtablesync
+function getRecords(callback){
+       
+            
+    let products = []
+    
+    base('Products').select({
+        // Selecting the first 3 records in Grid view:
+        
+        view: "Grid view"
+    }).eachPage(function page(records, fetchNextPage) {
+        // This function (`page`) will get called for each page of records.
+    
+        records.forEach(function(record) {
+                
+                products.push({
+                    'product_name':record.get('product_name'),
+                    'ingredients': record.get('ingredients'),
+                    'image_filename': record.get('image_filename'),
+                    'notes': record.get('notes'),
+                    'sold_out': record.get('sold_out'), 
+                    'deleted': record.get('deleted')  });
+            
+            
+        });
+    
+        // To fetch the next page of records, call `fetchNextPage`.
+        // If there are more records, `page` will get called again.
+        // If there are no more records, `done` will get called.
+        fetchNextPage();
+    
+    }, function done(err) {
+        if (err) {"error" +  callback(err); }
+       callback(null, "Thank You!");
+        
+        
+    });
+};
 
-let base = new Airtable({apiKey: process.env.AIRTABLE_APIKEY}).base(process.env.AIRTABLE_BASE);
 
-exports.handler = function(event, context, callback){
-    console.log("Starting...");
-    console.log("API: " + process.env.AIRTABLE_APIKEY);
-    console.log("apiKey: " +process.env.AIRTABLE_BASE);
-    callback(null, "Success!");
+
+
+exports.handler = (event, context, callback) => {
+    console.log("starting...")
+    getRecords(callback);
+
+   
+    
+
+    
 }
-
 
