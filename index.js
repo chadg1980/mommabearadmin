@@ -20,6 +20,7 @@ function getRecords(callback){
             if(record.get('product_name')){
                 products.push({
                     'product_name':record.get('product_name'),
+                    'price':record.get('price'),
                     'ingredients': record.get('ingredients'),
                     'image_filename': record.get('image_filename'),
                     'alt_text' : record.get('image_alt_text'),
